@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./componentes/header";
+import Datos from "./componentes/Datos";
+import { useEffect, useState } from "react";
+import Agregardatos from "./componentes/Agregardatos";
+import "./App.css";
 
 function App() {
+  const [datos,setdatos] = useState([])
+  useEffect(() =>{
+    fetch("http://www.raydelto.org/agenda.php")
+    .then(function(contactos){
+      return contactos.json();
+    })
+    .then((res) =>{
+      setdatos(res)
+     var i =0
+     /*for(i in res){
+       const registro = res[i]
+       setdatos(registro)
+       i++;
+     }*/
+    });
+  },[]);
+  const agregardatos = (resgistro)=>{
+    console.log(resgistro)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   <div className="contactos">
+     <div className="lista">
+       <Header/>
+       <Agregardatos agregardatos={agregardatos}/>
+       <Datos datos={datos}/>
+     </div>
+   </div>
+  )
 }
 
 export default App;
